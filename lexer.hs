@@ -1,23 +1,8 @@
-module Lexer (
-  Operator(..),
-  Token(..),
-  tokenize
-  )
+module Lexer (tokenize)
   where
 
+import Types
 import Data.Char
-data Operator = Plus | Minus | Times | Div
-     deriving (Show, Eq)
-
-data Token = TokOp Operator
-           | TokIdent String
-           | TokNum Double
-           | TokSpace
-           | TokAssign
-           | TokLParen
-           | TokRParen
-           | TokEnd
-    deriving (Show, Eq)
 
 operator :: Char -> Operator
 operator c | c == '+' = Plus

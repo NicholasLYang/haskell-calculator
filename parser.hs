@@ -1,14 +1,8 @@
-import Data.Char
-import Lexer
-import Utils
+module Parser(parse)
+  where
 
-data Tree = SumNode Operator Tree Tree
-          | ProdNode Operator Tree Tree
-          | AssignNode String Tree
-          | UnaryNode Operator Tree
-          | NumNode Double
-          | VarNode String
-    deriving Show
+import Data.Char
+import Types
 
 parse :: [Token] -> Tree
 parse toks = let (tree, toks') = expression toks
@@ -62,8 +56,10 @@ factor toks =
         else (expTree, accept toks')
     _ -> error $ "Parse error on token: " ++ show toks
 
+lookAhead :: [Token] -> Token
+lookAhead [] = TokEnd
+lookAhead (c:cs) = c
 
-main = do
-  putStrLn "Enter expression:"
-  input <- getLine
-  (print . parse . tokenize) input
+accept :: [Token] -> [Token]
+accept [] = error "Nothing to accept"
+accept (t:ts) = ts
